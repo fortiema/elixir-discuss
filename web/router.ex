@@ -18,6 +18,7 @@ defmodule Discuss.Router do
 
     # Syntactic sugar for RESTful-compliant endpoint
     resources "/topics", TopicController
+
     # Those lines below are implicit from the 'resources' call
     # get "/", TopicController, :index
     # get "/topics/new", TopicController, :new
@@ -25,6 +26,13 @@ defmodule Discuss.Router do
     # get "/topics/:id/edit", TopicController, :edit
     # put "/topics/:id", TopicController, :update
     # delete "/topics/:id", TopicController, :delete
+  end
+
+  scope "/auth", Discuss do
+    pipe_through :browser
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
   end
 
   # Other scopes may use custom stacks.
